@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
-import './Users.css'
-const Users = () => {
+import './Employees.css'
+const Employees = () => {
     const [employees, setEmployees] = useState([])
   
     const addUser = async () => {
@@ -61,4 +61,4 @@ const Users = () => {
         )
 }
 
-export default Users
+export default Employees

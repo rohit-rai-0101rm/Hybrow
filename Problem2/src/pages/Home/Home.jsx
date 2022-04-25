@@ -1,9 +1,9 @@
 import React from 'react'
-import { Users } from '../../components'
+import { Employees, Users } from '../../components'
 
 const Home = () => {
   return (
-   <Users/>
+   <Employees/>
   )
 }
 
