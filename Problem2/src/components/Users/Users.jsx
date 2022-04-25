@@ -1,42 +1,64 @@
 import axios from 'axios'
-import React, { useState } from 'react'
-import UserDetails from './UserDetails/UserDetails'
+import React, { useState, useEffect } from 'react'
 import './Users.css'
 const Users = () => {
-    const [users, setUsers] = useState([])
-   
+    const [employees, setEmployees] = useState([])
+  
     const addUser = async () => {
         const randomNumber = Math.floor((Math.random() * 10) + 1);
         //console.log(randomNumber)
         const newUser = await axios.get(`https://jsonplaceholder.typicode.com/users/${randomNumber}`)
         console.log(newUser)
-        setUsers([...users, newUser.data])
+        setEmployees([...employees, newUser.data])
     }
-  
+    const renderHeader = () => {
+        let headerElement = ['id','name','operation']
+
+        return headerElement.map((key, index) => {
+            return <th key={index}>{key.toUpperCase()}</th>
+        })
+    }
+    const renderBody = () => {
+        return employees && employees.map(({ id, name }) => {
+            return (
+                <tr key={id}>
+                                        <td>{id}</td>
+
+                    <td>{name}</td>
+                  
+                    <td className='opration'>
+                        <button className='delButton' onClick={() => removeUser(id)}>Delete</button>
+                    </td>
+                </tr>
+            )
+        })
+    }
+
+    const removeUser = (id) => {
+
+            const del = employees.filter(employee => id !== employee.id)
+            setEmployees(del)
+        
+    }
+    
+
+
     //console.log(users)
-    return (
-        <div className='Users'>
+   
+        return (
+            <>
             <button className='addBtn' onClick={addUser}>Add User</button>
-            <div className='userDetails'>
-                {
-                    users.map((user) => (
-                        <div key={user.id}>
-                            <p>{user.name}{user.id}</p>
-                            <button onClick={(id)=>{
-                                console.log(user.id)
-                                setUsers(users.filter(user => user.id !== id))
-                                console.log(users.length)
-                                }} >delete</button>
-
-                        </div>
-
-                    ))
-                }
-
-            </div>
-
-        </div>
-    )
+                <h1 id='title'></h1>
+                <table id='employee'>
+                    <thead>
+                        <tr>{renderHeader()}</tr>
+                    </thead>
+                    <tbody>
+                        {renderBody()}
+                    </tbody>
+                </table>
+            </>
+        )
 }
 
 export default Users
